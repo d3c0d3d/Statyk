@@ -93,6 +93,12 @@ namespace Statyk.IntegratedTests
             PrintLn(TemplatePage.DefaultPageFactory("200 OK", "#125c17", ":)", "200 - Tudo OK!"));
         }
 
+        [TestMethod("elements-test")]
+        public void ElementsTest()
+        {
+            PrintLn(new Button().AddClass("btn-default").ToString());
+        }
+
         public override List<string> ListTestMethods()
         {
             foreach (var item in base.ListTestMethods())
