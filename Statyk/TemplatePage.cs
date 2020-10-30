@@ -65,25 +65,25 @@ namespace Statyk
 
         public static string DefaultPageFactory(string title, string bgColor, string asciiSmile, string msg, string extraMsg = null, int code = 200)
         {
-            var htmlMsgTag = new HtmlNode("div")
+            var htmlMsgTag = new Div()
                 .AddClass("bodyHeadline")
-                .CssAttr("font-size","16px")
+                .CssAttr("font-size", "16px")
                 .CssAttr("line-height", "25px")
-                .CssAttr("width","900px")
+                .CssAttr("width", "900px")
                 .Append(extraMsg);
 
-            var htmlPage = new HtmlNode()
-                .Append(new HtmlNode("head")
-                .Append(new HtmlNode("meta")
+            var htmlPage = new Html()
+                .Append(new Head()
+                .Append(new Meta()
                     .SetAttr("charset", "utf-8"))
-                .Append(new HtmlNode("meta")
+                .Append(new Meta()
                     .SetAttr("http-equiv", "X-UA-Compatible")
                     .SetAttr("content", "IE-edge"))
-                .Append(new HtmlNode("meta")
+                .Append(new Meta()
                     .SetAttr("name", "viewport"))
-                .Append(new HtmlNode("title")
-                    .SetAttr("name", $"{nameof(Statyk)} Server"))
-                .Append(new HtmlNode("style")
+                .Append(new Title()
+                    .Append($"{nameof(Statyk)} Server"))
+                .Append(new Style()
                     .SetAttr("media", "screen").Append("font-face {\r\n" +
                 "            font-family: 'SegoeLight', helvetica, sans-serif;\r\n" +
                 "            font-weight: normal;\r\n" +
@@ -154,17 +154,17 @@ namespace Statyk
                 "                .content .bodyLink:hover {\r\n" +
                 "                   opacity: .7;\r\n" +
                 "                }\r\n")))
-                .Append(new HtmlNode("body")
-                .Append(new HtmlNode("div")
+                .Append(new Body()
+                .Append(new Div()
                     .AddClass("content")
-                    .Append(new HtmlNode("div").AddClass("bodyHeadline").Append(asciiSmile, false))
-                    .Append(new HtmlNode("div").AddClass("bodyHeadline").Append(msg,false))
+                    .Append(new Div().AddClass("bodyHeadline").Append(asciiSmile, false))
+                    .Append(new Div().AddClass("bodyHeadline").Append(msg, false))
                     .Append(code == 500 || code == 501 && !string.IsNullOrEmpty(extraMsg) ? htmlMsgTag : null)
-                    .Append(new HtmlNode("div").AddClass("bodyContent").Append($"{nameof(Statyk)} - Server",false))
-                    .Append(new HtmlNode("a").AddClass("bodyLink small").SetAttr("href", "index")
-                        .Append("Ir para Index",false)
-                            .Append(new HtmlNode("div")
-                                .Append(new HtmlNode("img")
+                    .Append(new Div().AddClass("bodyContent").Append($"{nameof(Statyk)} - Server", false))
+                    .Append(new A().AddClass("bodyLink small").SetAttr("href", "/index")
+                        .Append("Ir para Index", false)
+                            .Append(new Div()
+                                .Append(new Img()
                                 .SetAttr("src", "data:image/png;base64," +
                                            "iVBORw0KGgoAAAANSUhEUgAAADoAAAAdCAYAAAD7En+mAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZ" +
                                            "VJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/Ii" +
@@ -196,12 +196,13 @@ namespace Statyk
                                            "DyXNc0+XYlr18RA5ZRt7/btjSnqsFwXE51mK68k3L/W+DqR8HRcAViFq5Xm1pGBP4wAyu751Crjs1z9ZM" +
                                            "1wU1BLaYptsK4VktN9pRq0R9Y5/NMZL8slmC1ioSIu51ezNtkSACQ3HJckjXAX1v8nzsTxLwVBTT99OEi" +
                                            "FxkMsNIVpu/J6yjhBpEG5mhv7vI8l+AAQB7WiwH/DuungAAAABJRU5ErkJggg==")
-                                .SetAttr("alt","Ir Para Index")
-                                .SetAttr("title","Ir Para Index")
-                                .SetAttr("witdh","58")
-                                .SetAttr("height","29"))))));
+                                .SetAttr("alt", "Ir Para Index")
+                                .SetAttr("title", "Ir Para Index")
+                                .SetAttr("witdh", "58")
+                                .SetAttr("height", "29"))))));
 
             return htmlPage.ToString();
+
         }
     }
 }
