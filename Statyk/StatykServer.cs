@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Statyk.HtmlGen;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -303,7 +304,7 @@ namespace Statyk
                         default:
                             break;
                     }
-                }                
+                }
 
                 var (controller, method) = ResolverControllerInstance(context, controllerName, methodName);
                 if (controller != null)
@@ -528,6 +529,8 @@ namespace Statyk
 
         private static string ResolverContentType(object obj)
         {
+            if (obj is HtmlNode)
+                return GetContentType("html");
             if (obj is string)
             {
                 var str = obj.ToString();

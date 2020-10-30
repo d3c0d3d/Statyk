@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
+		<TargetFrameworks>net47;net5.0</TargetFrameworks>
+		<LangVersion>9.0</LangVersion>
 		<Authors>Statyk Dev</Authors>
-		<Description>Minimalist Static Http Server</Description>
+		<Description>Minimalist Web Framework with Server</Description>
 		<Version>0.0.1</Version>
 	</PropertyGroup>
 
@@ -22,6 +23,9 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net46|AnyCPU'">
 		<OutputPath>..\build\Debug</OutputPath>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net47|AnyCPU'">
+		<OutputPath>..\build\Debug</OutputPath>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.1|AnyCPU'">
 		<OutputPath>..\build\Release</OutputPath>
@@ -38,5 +42,30 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net46|AnyCPU'">
 		<OutputPath>..\build\Release</OutputPath>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net47|AnyCPU'">
+		<OutputPath>..\build\Release</OutputPath>
+	</PropertyGroup>
+	<ItemGroup Condition="'$(TargetFramework)'=='net47'">
+	  <Reference Include="Microsoft.CSharp" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="System.Text.Json" Version="5.0.0-rc.2.20475.5" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="HtmlGen\HtmlElement.tt">
+	    <Generator>TextTemplatingFileGenerator</Generator>
+	    <LastGenOutput>HtmlElement.cs</LastGenOutput>
+	  </None>
+	</ItemGroup>
+	<ItemGroup>
+	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="HtmlGen\HtmlElement.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>HtmlElement.tt</DependentUpon>
+	  </Compile>
+	</ItemGroup>
 
 </Project>

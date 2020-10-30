@@ -4,6 +4,8 @@ using System.Runtime.Serialization;
 using System.Text.Json;
 using XR.Std.Net;
 using static XR.Std.Cli;
+using static Statyk.HtmlGen.HtmlNodeEx;
+using System;
 
 namespace Statyk.IntegratedTests
 {
@@ -15,11 +17,11 @@ namespace Statyk.IntegratedTests
         [TestMethod("controller-test")]
         public void ControllerTest()
         {
-            var statykServer = StatykServer.Create(_wsPort)                
+            var statykServer = StatykServer.Create(_wsPort)
                 .AddController<PersonController>()
                 .Listen();
 
-            if(statykServer.IsListen)
+            if (statykServer.IsListen)
             {
                 PrintLn($"RootPath => {statykServer.RootPath}");
                 PrintLn($"Server at running in {statykServer.UriPrefix}");
@@ -53,16 +55,16 @@ namespace Statyk.IntegratedTests
             var html = new HtmlNode()
                 .Append(new HtmlNode("head")
                 .Append(new HtmlNode("meta")
-                    .SetAttr("charset","uft-8"))
+                    .SetAttr("charset", "uft-8"))
                 .Append(new HtmlNode("meta")
-                    .SetAttr("http-equiv","X-UA-Compatible")
+                    .SetAttr("http-equiv", "X-UA-Compatible")
                     .SetAttr("content", "IE-edge"))
                 .Append(new HtmlNode("meta")
-                    .SetAttr("name","viewport"))
+                    .SetAttr("name", "viewport"))
                 .Append(new HtmlNode("title")
-                    .SetAttr("name",$"{nameof(Statyk)} Server"))
+                    .SetAttr("name", $"{nameof(Statyk)} Server"))
                 .Append(new HtmlNode("style")
-                    .SetAttr("media","screen").Append("font-face {\r\n" +
+                    .SetAttr("media", "screen").Append("font-face {\r\n" +
                 "            font-family: 'SegoeLight', helvetica, sans-serif;\r\n" +
                 "            font-weight: normal;\r\n" +
                 "            font-style: normal;\r\n" +
@@ -96,17 +98,24 @@ namespace Statyk.IntegratedTests
         [TestMethod("elements-test")]
         public void ElementsTest()
         {
-            PrintLn(new Button().AddClass("btn-default").ToString());
+            PrintLnC(new Button().AddClass("btn-default").ToString(), ConsoleColor.Yellow);
         }
 
+        [TestMethod("create-page-test")]
+        public void CreatePageTest()
+        {
+            PrintLnC(CreatePage("Server Test",
+                new HtmlNode[] { AddLink("/site.css"), AddScript("/site.js") },
+                new HtmlNode[] { AddLink("/site.css"), AddScript("/site.js"),new Br() }).ToString(), ConsoleColor.Yellow);
+        }
         public override List<string> ListTestMethods()
         {
             foreach (var item in base.ListTestMethods())
             {
-                PrintLn(item);
+                PrintLnC(item, ConsoleColor.White);
             }
 
-            return null;            
+            return null;
         }
     }
 

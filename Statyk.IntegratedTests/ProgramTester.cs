@@ -10,12 +10,13 @@ namespace Statyk.IntegratedTests
         static bool _exit;
 
         static void Main(string[] args)
-        {
+        {           
             while (!_exit)
             {
                 try
                 {
                     ShellCaret("TestName");
+                    Console.ForegroundColor = ConsoleColor.White;
                     string[] c = ShellArgs();
                     if (c?.Length > 0)
                     {

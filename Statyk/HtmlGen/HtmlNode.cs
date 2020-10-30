@@ -16,9 +16,12 @@ namespace Statyk.HtmlGen
         /// Use <see cref="CreateElement"/>
         /// </summary>
         /// <param name="elementName"></param>
-        public HtmlNode(string elementName)
+        public HtmlNode(string elementName, bool voidTag = false, bool closeVoidTag = true)
         {
-            CreateElement(elementName);
+            if (elementName == "html")
+                elementName = "<!DOCTYPE html>";
+
+            CreateElement(elementName, voidTag, closeVoidTag);
         }
         /// <summary>
         /// Create 'html' tag
@@ -33,14 +36,17 @@ namespace Statyk.HtmlGen
         /// </summary>
         /// <param name="elementName">Name of element ex: span, div, title...</param>
         /// <returns></returns>
-        public HtmlNode CreateElement(string elementName)
+        public HtmlNode CreateElement(string elementName, bool voidTag = false, bool closeVoidTag = true)
         {
             if (!string.IsNullOrEmpty(_tag))
                 throw new Exception($"'{nameof(CreateElement)}' it cannot be used more than once in the creation context.");
 
             elementName = elementName.Replace("<", "").Replace(">", "");
 
-            _tag = $"<{elementName}></{elementName.Replace("!DOCTYPE ",string.Empty)}>";
+            if (voidTag)
+                _tag = $"<{elementName}{(closeVoidTag ? $"/>" : ">")}";
+            else
+                _tag = $"<{elementName}></{elementName.Replace("!DOCTYPE ", string.Empty)}>";
             return this;
         }
 
@@ -56,17 +62,8 @@ namespace Statyk.HtmlGen
                 throw new Exception("'Tag' must be created first.");
 
             _tag = BuildPropertyValue(propertyName, value);
-            return this;
-        }
 
-        /// <summary>
-        /// Add 'class' attribute with <see cref="SetAttr"/>
-        /// </summary>
-        /// <param name="className"></param>
-        /// <returns></returns>
-        public HtmlNode AddClass(string className)
-        {
-            return SetAttr("class", className);
+            return this;
         }
 
         /// <summary>
@@ -96,16 +93,16 @@ namespace Statyk.HtmlGen
         {
             if (!string.IsNullOrEmpty(unsafeElement))
             {
-                var tag = _tag.Split('>');
+                var tag = _tag.Split(new char[] { '>' }, StringSplitOptions.RemoveEmptyEntries);
                 var initialPart = string.Empty;
 
-                for (var i = 0; i < tag.Length - 3; i++)
+                for (var i = 0; i < tag.Length - 2; i++)
                 {
                     initialPart += tag[i] + ">";
                 }
 
-                var rightPart = tag[^3];
-                var leftPart = tag[^2];
+                var rightPart = tag[tag.Length - 2];
+                var leftPart = tag[tag.Length - 1];
 
                 _tag = $"{initialPart}{rightPart}>{(indenting ? "\n  " : "")}{unsafeElement}{(indenting && !leftPart.Contains("\n") ? "\n" : "")}{leftPart}>";
             }
@@ -122,16 +119,16 @@ namespace Statyk.HtmlGen
         {
             if (element != null)
             {
-                var tag = _tag.Split('>');
+                var tag = _tag.Split(new char[] { '>' }, StringSplitOptions.RemoveEmptyEntries);
                 var initialPart = string.Empty;
 
-                for (var i = 0; i < tag.Length - 3; i++)
+                for (var i = 0; i < tag.Length - 2; i++)
                 {
                     initialPart += tag[i] + ">";
                 }
 
-                var rightPart = tag[^3];
-                var leftPart = tag[^2];
+                var rightPart = tag[tag.Length - 2]; // todo debug
+                var leftPart = tag[tag.Length - 1];
 
                 _tag = $"{initialPart}{rightPart}>{(indenting ? "\n  " : "")}{element}{(indenting && !leftPart.Contains("\n") ? "\n" : "")}{leftPart}>";
             }
@@ -149,14 +146,15 @@ namespace Statyk.HtmlGen
 
         private string BuildPropertyValue(string propertyName, dynamic value)
         {
-            var tagParts = _tag.Split('>');
+            var tagParts = _tag.Split(new char[] { '>' } , StringSplitOptions.RemoveEmptyEntries);
+
             var prop = tagParts[0].Contains(propertyName);
             if (prop)
             {
                 var newPropValue = Regex.Replace(tagParts[0], $"{propertyName}=\"[^?]*\"", $"{propertyName}=\"{value}\"");
-                return $"{newPropValue}>{tagParts[1]}>";
+                return $"{newPropValue}>{(tagParts.Length == 2 ? $"{tagParts[1]}>" : "")}";
             }
-            return $"{tagParts[0]} {propertyName}=\"{value}\">{tagParts[1]}>";
+            return $"{tagParts[0]} {propertyName}=\"{value}\">{(tagParts.Length == 2 ? $"{tagParts[1]}>" : "")}";
         }
     }
 }

@@ -53,23 +53,29 @@ namespace Statyk
             if ((strInput.StartsWith("{") && strInput.EndsWith("}")) || //For object
                 (strInput.StartsWith("[") && strInput.EndsWith("]"))) //For array
             {
+
                 try
                 {
+
                     var obj =  JsonSerializer.Serialize(strInput);
+
                     return true;
                 }
+
                 catch (JsonException jex)
                 {
                     //Exception in parsing json
                     Debug.WriteLine(jex.Message);
                     return false;
                 }
+
                 catch (Exception ex) //some other exception
                 {
                     Debug.WriteLine(ex.ToString());
                     return false;
                 }
-            }
+
+                }
             else
             {
                 return false;

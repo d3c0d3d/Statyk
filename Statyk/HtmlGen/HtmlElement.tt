@@ -1,0 +1,29 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ assembly name="$(SolutionDir)/build/Debug/net47/Statyk.dll" #>
+namespace Statyk.HtmlGen
+{
+<# foreach (var tag in Statyk.HtmlGen.HtmlUtil.AllTags) { #>
+    /// <summary>
+    /// HTML <#=tag #> Tag
+    /// </summary>
+    public class <#=tag #> : HtmlNode
+    {
+        <# var isVoid = Statyk.HtmlGen.HtmlUtil.IsVoid(tag.ToLower()).ToString().ToLower(); #>
+        <# var isClosed = Statyk.HtmlGen.HtmlUtil.IsClosedVoid(tag.ToLower()).ToString().ToLower(); #>
+
+        /// <summary>
+        /// Html <#=tag #> Tag
+        /// </summary>        
+        public <#=tag #>() : base("<#=tag.ToLower() #>", <#=isVoid #>, <#=isClosed #>) { }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+    }
+<# } #>
+}
