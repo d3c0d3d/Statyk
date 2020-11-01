@@ -121,13 +121,18 @@ namespace Statyk.IntegratedTests
 
     internal class IndexController
     {
-        public string Get()
+        public HtmlNode Get()
         {
             var person = new { Id = 1, Name = "tester" };
 
             var json = JsonSerializer.Serialize<dynamic>(person);
 
-            return json;
+
+            var page = CreatePage("Server Test",
+                new HtmlNode[] { AddLink("/site.css"), AddScript("/site.js") },
+                new HtmlNode[] { new H1().Append($"Hello World - {person.Name}"), new Br(), new H6().Append($"{nameof(Statyk)}"), });
+
+            return page;
         }
     }
 
