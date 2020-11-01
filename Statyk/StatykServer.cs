@@ -479,14 +479,20 @@ namespace Statyk
             }
             else
             {
-                if (content is string)
+                switch (content)
                 {
-                    buffer = Encoding.UTF8.GetBytes(content as string);
-                }
-                if (content is byte[])
-                {
-                    buffer = content as byte[];
-                }
+                    case string:
+                        buffer = Encoding.UTF8.GetBytes(content as string);
+                        break;
+                    case byte[]:
+                        buffer = content as byte[];
+                        break;
+                    case object:
+                        buffer = Encoding.UTF8.GetBytes(content.ToString());
+                        break;
+                    default:
+                        break;
+                }               
             }
 
             response.Headers.Add(HttpResponseHeader.Server, string.Empty);
