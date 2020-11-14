@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text.Json;
-using XR.Std.Net;
-using static XR.Std.Cli;
+using XStd.Net;
+using static XStd.Cli;
 using static Statyk.HtmlGen.HtmlNodeEx;
 using System;
+using XStd.TestEngine;
 
 namespace Statyk.IntegratedTests
 {

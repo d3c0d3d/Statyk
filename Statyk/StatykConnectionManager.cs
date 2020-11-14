@@ -50,7 +50,7 @@ namespace Statyk
 
         private static string CreateConnectionId()
         {
-            return Guid.NewGuid().ToString();
+            return XStd.Nanoid.Generate("0123456789abcdef",7);
         }
     }
 }

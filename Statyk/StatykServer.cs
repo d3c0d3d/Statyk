@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using XStd.Net;
 
 namespace Statyk
 {
@@ -19,14 +20,14 @@ namespace Statyk
         private const int SendChunkSize = 1024;
 
         private readonly HttpListener _httpListener;
-        private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+        private readonly CancellationTokenSource _cancellationTokenSource = new();
         private readonly CancellationToken _cancellationToken;
 
         private Action<WebSocket, StatykServer> _onConnected;
         private Action<WebSocket, StatykMessage, StatykServer> _onMessage;
         private Action<string, StatykServer> _onDisconnected;
 
-        private readonly List<Type> _controllers = new List<Type>();
+        private readonly List<Type> _controllers = new();
 
         public StatykConnectionManager ConnectionManager { get; private set; }
         public string UriPrefix { get; private set; }
@@ -216,7 +217,7 @@ namespace Statyk
                     var stringResult = new StringBuilder();
                     WebSocketReceiveResult result;
 
-                    using (MemoryStream memStream = new MemoryStream())
+                    using (MemoryStream memStream = new())
                     {
                         do
                         {
@@ -426,7 +427,7 @@ namespace Statyk
 
         private object InvokeControllerInstance(HttpListenerContext context, Type controller, MethodInfo method, string id)
         {
-            List<object> paramsList = new List<object>();
+            List<object> paramsList = new();
 
             string bodyValue;
             var req = context.Request;

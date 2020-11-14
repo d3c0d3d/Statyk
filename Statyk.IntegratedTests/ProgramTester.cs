@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using static XR.Std.Cli;
+using static XStd.Cli;
 
 namespace Statyk.IntegratedTests
 {
