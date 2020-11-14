@@ -127,7 +127,7 @@ namespace Statyk.HtmlGen
                     initialPart += tag[i] + ">";
                 }
 
-                var rightPart = tag[tag.Length - 2]; // todo debug
+                var rightPart = tag[tag.Length - 2];
                 var leftPart = tag[tag.Length - 1];
 
                 _tag = $"{initialPart}{rightPart}>{(indenting ? "\n  " : "")}{element}{(indenting && !leftPart.Contains("\n") ? "\n" : "")}{leftPart}>";
