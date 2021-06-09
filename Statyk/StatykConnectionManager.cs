@@ -9,7 +9,7 @@ namespace Statyk
 {
     public class StatykConnectionManager
     {
-        private readonly ConcurrentDictionary<string, WebSocket> _sockets = new ConcurrentDictionary<string, WebSocket>();
+        private readonly ConcurrentDictionary<string, WebSocket> _sockets = new();
         public WebSocket GetSocketById(string id)
         {
             return _sockets.FirstOrDefault(p => p.Key == id).Value;

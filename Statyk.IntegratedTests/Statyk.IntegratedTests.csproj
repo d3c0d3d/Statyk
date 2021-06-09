@@ -11,7 +11,7 @@
 
 	<ItemGroup>
 		<Reference Include="XStd">
-			<HintPath>..\..\XStandard\build\Debug\net5.0\XStd.dll</HintPath>
+			<HintPath>..\..\XStandard\build\Release\net5.0\XStd.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 
